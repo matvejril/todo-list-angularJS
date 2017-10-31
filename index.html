@@ -1,0 +1,96 @@
+<!DOCTYPE
+        html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo-list</title>
+    <link href="css/main.css" rel="stylesheet">
+    <script src="/node_modules/angular/angular.js"></script>
+    <script src="scripts/main.js" type="text/javascript"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div class="todo-creator">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="todo-creator__name" placeholder="Имя задачи" ng-model="name">
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <label>Важность задачи:
+                        <select class="todo-creator__importance" ng-model="importance">
+                            <option value="Обычная">Обычная</option>
+                            <option value="Высокая">Высокая</option>
+                            <option value="Наивысшая">Наивысшая</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <label>Выполнить до:
+                        <input type="date" class="todo-creator__date-deadline" ng-model="dateDeadline">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <textarea class="todo-creator__description" placeholder="Описание задачи" ng-model="description"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 todo-creator__action">
+                    <input type="button" class="todo-creator__add" value="Добавить" ng-click="addTodo()" ng-hide="currentTodo !== null">
+                    <input type="button" class="todo-creator__save" value="Сохранить" ng-click="saveTodo()" ng-show="currentTodo !== null">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="todo-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Выбрать задачи:
+                        <select class="todo-list__select-importance" ng-model="todoSelect">
+                            <option value="">Все</option>
+                            <option value="Обычная">Обычная</option>
+                            <option value="Высокая">Высокая</option>
+                            <option value="Наивысшая">Наивысшая</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="row todo-item" ng-repeat="todo in todos | filter:todoSelect track by todo.id">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <p class="todo-item__number">№ {{$index + 1}}.</p>
+                            <p class="todo-item__name">{{todo.name}}</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="todo-item__status">Статус задачи: {{todo.status}}</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="todo-item__date-performance">Дата выполнения: {{todo.datePerformance | date:'dd.MM.yyyy'}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <p class="todo-item__description">{{todo.description}}</p>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="todo-item__importance">Важность: {{todo.importance}}</p>
+                            <p class="todo-item__date-deadline">Выполнить до: {{todo.dateDeadline | date:'dd.MM.yyyy'}}</p>
+                        </div>
+                    </div>
+                    <button class="todo-item__remove" ng-click="removeTodo(todo)">Удалить</button>
+                    <button class="todo-item__edit" ng-click="editTodo(todo)">Редактировать</button>
+                    <button class="todo-item__performance" ng-click="performanceTodo(todo)">Отметить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
